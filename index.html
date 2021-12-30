@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <title>Hello, world!</title>
+</head>
+
+<body>
+  <div class="container">
+    <h1>jQuery Validation</h1>
+    <form id="commentForm">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="fname">First Name</label>
+          <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name">
+          <!--required-->
+        </div>
+        <div class="form-group col-md-6">
+          <label for="lname">Last Name</label>
+          <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name">
+          <!--required-->
+        </div>
+
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="address">Address</label>
+          <input type="text" class="form-control" id="address" name="address" placeholder="Address">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="url">URL</label>
+          <input type="url" class="form-control" id="url" name="url" placeholder="URL">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="cpassword">Confirm Password</label>
+          <input type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Confirm Password">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="agree" name="agree">
+          <label class="form-check-label" for="agree">
+            Check me out to Agree
+          </label>
+          <label id="agree-error" class="error" for="agree"></label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="newsletter" name="newsletter">
+          <label class="form-check-label" for="newsletter">
+            News Letter
+          </label>
+          <label id="newsletter-error" class="error" for="newsletter"></label>
+        </div>
+      </div>
+
+      <fieldset id="newsletter_topics">
+        <div class="form-group">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="topic1" name="topic" value="option1">
+            <label class="form-check-label" for="inlineCheckbox1">1 Topic</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="topic2" name="topic" value="option2">
+            <label class="form-check-label" for="inlineCheckbox2">2 Topic</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="topic3" name="topic" value="option3" disabled>
+            <label class="form-check-label" for="inlineCheckbox3">3 Topic (disabled)</label>
+          </div>
+          <label id="topic-error" class="error" for="topic"></label>
+        </div>
+      </fieldset>
+
+
+
+      <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+
+    <script>
+      // $("#commentForm").validate();
+      $().ready(function () {
+
+        $("#commentForm").validate({
+          rules: {
+            fname: "required",
+            lname: "required",
+            username: "required",
+            email: {
+              required: true,
+              //email: true
+              GoogleMail: true
+            },
+            address: {
+              required: true,
+            },
+            url: {
+              url: true,
+              required: true,
+            },
+            password: {
+              required: true,
+              minlength: 5
+            },
+            cpassword: {
+              required: true,
+              minlength: 5,
+              equalTo: "#password",
+            },
+            agree: {
+              required: true,
+            },
+            topic: {
+              required: "#newsletter:checked",
+              minlength: 2,
+            }
+
+          },
+          messages: {
+            fname: "Enter First Name",
+            lname: "Enter Last Name",
+            username: "Enter Userame",
+            email: {
+              required: "Enter Email",
+              email: "Valid Email",
+            },
+            address: "Enter Address",
+            url: {
+              required: "Enter URL",
+              url: "Valid URL",
+            },
+            password: {
+              required: "Enter Password",
+              minlength: "Min 5 Char",
+            },
+            cpassword: {
+              required: "Enter Confirm Password",
+              minlength: "Min 5 Char",
+              equalTo: "Not Match with Password"
+            },
+            agree: "Click to agree",
+            topic:  {
+              required : "Click to Select",
+              minlength : "Select  at least 2 Topics",
+            }
+          }
+        });
+
+        $("#username").focus(function(){
+          var fname = $("#fname").val();
+          var lname = $("#lname").val();
+          if(fname && lname && !this.value){
+            this.value = fname + "." + lname;
+          }
+        });
+
+        var newsletter = $("#newsletter");
+        var initial = newsletter.is(":checked");
+        var topic = $("#newsletter_topics")[initial ? "removeClass" : "addClass"]("d-none");
+        var topicInputs = topic.find("input").attr("disabled", !initial);
+        newsletter.click(function(){
+          topic[this.checked ? "removeClass" : "addClass"]("d-none");
+          topicInputs.attr("disabled",!this.checked);
+        });
+
+      });
+
+      jQuery.validator.addMethod("GoogleMail",function(value,element){
+        return this.optional(element) || /^.+@gmail.com$/.test(value);
+      },"Only Gmail Address are Allowed.");
+    </script>
+
+    <style>
+      .error {
+        color: red;
+      }
+    </style>
+
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+  </div>
+</body>
+
+</html>
